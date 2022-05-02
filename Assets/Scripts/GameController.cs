@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine.UI;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-  [SerializeField] private float time;
+  [SerializeField] public float time;
 
-  [SerializeField] private Text timerText;
+  [SerializeField] private Text timerText; // вывод на экран таймер костра
 
-    public GameObject Player;
+    [SerializeField] private Text fireWoodText; // вывод на экран кол-во дерева
 
-    private float _timeLeft = 100f;
+    [SerializeField] private Player woodCoins; // кол-во дерева в данный момент
+
+     public GameObject Fire;
+
+    public float _timeLeft = 100f; // Не изменять!
+
+     public float ckeckFireWoods = 0f; // проверяет, подобрал ли игрок дерево . Не менять!
 
     private IEnumerator StartTimer()
     {
@@ -34,11 +41,13 @@ public class GameController : MonoBehaviour
         if (_timeLeft <= 0)
         {
             _timeLeft = 0;
-            Destroy(Player);
+            Destroy(Fire);
         }
+        
 
         float minutes = Mathf.FloorToInt(_timeLeft / 60);
         float seconds = Mathf.FloorToInt(_timeLeft % 60);
         timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+        fireWoodText.text = Convert.ToString(woodCoins.fireWoodQuantity);
     }
 }

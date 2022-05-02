@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedRotation;
     private Vector3 _moveVector;
     private float _gravityForce;
+    public float fireWoodQuantity = 0f; // количество дров. Не менять!
+    public GameObject  FireWood; // сами дрова
+    public GameController timer; // время костра.
 
     
     
@@ -58,5 +61,23 @@ public class Player : MonoBehaviour
     {
         if (!_characterController.isGrounded) _gravityForce -= 20f * Time.deltaTime;
         else _gravityForce = -1f;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.tag == "FireWood") // при соприкосновении с дровами, добавляется очки дров и удаляется объект.
+        {
+            fireWoodQuantity++;
+            Destroy(collision.gameObject);
+
+        }
+        if (timer.ckeckFireWoods < fireWoodQuantity && collision.gameObject.tag == "Fire")
+        {
+            timer._timeLeft += 90f * fireWoodQuantity; // 90 - добавление к таймеру костра. Его можно менять.
+            timer.ckeckFireWoods = fireWoodQuantity;
+            fireWoodQuantity = 0f;
+
+        }
+
     }
 }
