@@ -8,7 +8,11 @@ public class Enemy : MonoBehaviour
     public GameObject player; // главный герой
 
     public float speed;
-    public float enemyHP = 3f;
+
+    private float _gravityForce;
+
+    private CharacterController _characterController;
+
 
     void Start()
     {
@@ -22,11 +26,7 @@ public class Enemy : MonoBehaviour
     {
 
         transform.position = Vector3.MoveTowards(transform.position,player.transform.position, speed * Time.deltaTime); // враг идет за игроком.
-        if (enemyHP <= 0)
-        {
-            Destroy(gameObject);
-
-        }
+        
 
         
     }
@@ -34,8 +34,15 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-          
+
+            
 
         }
+    }
+
+    private void GamingGravity()
+    {
+        if (!_characterController.isGrounded) _gravityForce -= 20f * Time.deltaTime;
+        else _gravityForce = -1f;
     }
 }

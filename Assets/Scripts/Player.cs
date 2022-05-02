@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _speedRotation;
     private Vector3 _moveVector;
     private float _gravityForce;
+
     
+    
+
 
     private CharacterController _characterController;
     private Animator _animator;
@@ -26,6 +28,13 @@ public class Player : MonoBehaviour
     {
         CharacterMove();
         GamingGravity();
+    }
+
+    private void Update()
+    {
+        
+
+
     }
 
     void CharacterMove()
