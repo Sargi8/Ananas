@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _speedRotation;
     private Vector3 _moveVector;
+    private float _gravityForce;
     
 
     private CharacterController _characterController;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         CharacterMove();
+        GamingGravity();
     }
 
     void CharacterMove()
@@ -38,6 +40,14 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direct);
         }
 
+        _moveVector.y = _gravityForce;
+
         _characterController.Move(_moveVector * Time.fixedDeltaTime);
+    }
+
+    private void GamingGravity()
+    {
+        if (!_characterController.isGrounded) _gravityForce -= 20f * Time.deltaTime;
+        else _gravityForce = -1f;
     }
 }
