@@ -71,13 +71,17 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
 
         }
-        if (timer.ckeckFireWoods < fireWoodQuantity && collision.gameObject.tag == "Fire")
+
+    }
+    private void OnTriggerEnter(Collider myTrigger)
+    {
+
+        if (timer.ckeckFireWoods < fireWoodQuantity && myTrigger.gameObject.tag == "Fire")
         {
             timer._timeLeft += 90f * fireWoodQuantity; // 90 - добавление к таймеру костра. Его можно менять.
             timer.ckeckFireWoods = fireWoodQuantity;
             fireWoodQuantity = 0f;
 
         }
-
     }
 }

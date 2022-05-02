@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
 
     public float speed;
 
+    private bool inFire = false;
+
     private float _gravityForce;
 
     private CharacterController _characterController;
@@ -24,8 +26,12 @@ public class Enemy : MonoBehaviour
    
     void Update()
     {
+        if (inFire == false)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime); // враг идет за игроком
+        }
+       
 
-        transform.position = Vector3.MoveTowards(transform.position,player.transform.position, speed * Time.deltaTime); // враг идет за игроком.
         
 
         
@@ -38,6 +44,26 @@ public class Enemy : MonoBehaviour
             
 
         }
+    }
+
+    private void OnTriggerEnter(Collider thisTrigger)
+    {
+        if (thisTrigger.gameObject.tag == "Fire")
+        {
+            inFire = true;
+            
+
+        }
+        
+    }
+    private void OnTriggerExit(Collider thissTrigger)
+    {
+        if (thissTrigger.gameObject.tag == "Fire")
+        {
+            
+            inFire = false;
+        }
+
     }
 
     private void GamingGravity()
