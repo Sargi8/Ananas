@@ -7,13 +7,22 @@ public class Enemy : MonoBehaviour
     public Transform spawnPoint; // точка респавна зомби
     public GameObject player; // главный герой
 
+    public Health playerHealth; // жизни ГГ
+
+    public Health enemyHealth; // жизни врага
+
     public float speed;
 
+    public float enemyDamage = 1f;
+
     private bool inFire = false;
+    private bool nowAttack = true; // готов ли враг атаковать игрока
 
     private float _gravityForce;
 
     private CharacterController _characterController;
+
+
 
 
     void Start()
@@ -38,15 +47,19 @@ public class Enemy : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && nowAttack)
         {
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * 4f,ForceMode.Impulse);
+            StartCoroutine(PlayerAttack());
+           
 
-            
+
+
 
         }
     }
 
-    private void OnTriggerEnter(Collider thisTrigger)
+    private void OnTriggerEnter(Collider thisTrigger) // при подхдоде к костру
     {
         if (thisTrigger.gameObject.tag == "Fire")
         {
@@ -56,7 +69,7 @@ public class Enemy : MonoBehaviour
         }
         
     }
-    private void OnTriggerExit(Collider thissTrigger)
+    private void OnTriggerExit(Collider thissTrigger) // при уходе от костра
     {
         if (thissTrigger.gameObject.tag == "Fire")
         {
@@ -70,5 +83,12 @@ public class Enemy : MonoBehaviour
     {
         if (!_characterController.isGrounded) _gravityForce -= 20f * Time.deltaTime;
         else _gravityForce = -1f;
+    }
+    IEnumerator PlayerAttack() // ожидание 1 секунды после атаки врага
+    {
+        nowAttack = false;
+        playerHealth.TakeHit(enemyDamage);
+        yield return new WaitForSeconds(1f);
+        nowAttack = true;
     }
 }

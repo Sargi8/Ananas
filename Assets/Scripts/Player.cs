@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public GameObject  FireWood; // сами дрова
     public GameController timer; // время костра.
 
+
     
     
 
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        
+  
 
 
     }
