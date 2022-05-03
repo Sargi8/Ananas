@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour
 
     public Health playerHealth; // жизни ГГ
 
-    public Health enemyHealth; // жизни врага
+    public Animator anim;
+
 
     public float speed;
 
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour
     {
         if (inFire == false)
         {
+            transform.LookAt(player.transform);
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime); // враг идет за игроком
         }
        
@@ -45,11 +47,12 @@ public class Enemy : MonoBehaviour
 
         
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player" && nowAttack)
         {
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(transform.up * 4f,ForceMode.Impulse);
+            
             StartCoroutine(PlayerAttack());
            
 
@@ -57,12 +60,14 @@ public class Enemy : MonoBehaviour
 
 
         }
+       
     }
 
     private void OnTriggerEnter(Collider thisTrigger) // при подхдоде к костру
     {
         if (thisTrigger.gameObject.tag == "Fire")
         {
+            anim.SetInteger("StudyAnimaton", 2);
             inFire = true;
             
 
@@ -73,7 +78,7 @@ public class Enemy : MonoBehaviour
     {
         if (thissTrigger.gameObject.tag == "Fire")
         {
-            
+            anim.SetInteger("StudyAnimaton", 0);
             inFire = false;
         }
 
@@ -87,8 +92,10 @@ public class Enemy : MonoBehaviour
     IEnumerator PlayerAttack() // ожидание 1 секунды после атаки врага
     {
         nowAttack = false;
+        anim.SetInteger("StudyAnimaton", 1);
         playerHealth.TakeHit(enemyDamage);
         yield return new WaitForSeconds(1f);
         nowAttack = true;
+        anim.SetInteger("StudyAnimaton", 0);
     }
 }
