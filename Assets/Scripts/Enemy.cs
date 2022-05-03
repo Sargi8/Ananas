@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform spawnPoint; // точка респавна зомби
+    //public Transform spawnPoint; // точка респавна зомби
     public GameObject player; // главный герой
 
     public Health playerHealth; // жизни ГГ
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        transform.position = spawnPoint.position;
+        //transform.position = spawnPoint.position;
         _characterController = GetComponent<CharacterController>();
         
 
