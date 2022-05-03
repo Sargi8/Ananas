@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
     public GameObject Bullet;
     public GameObject _spawnBulletPoint;
     public AudioClip _shotAudio;
-    public AudioSource _audioSource;
+    private AudioSource _audioSource;
     public ParticleSystem ShotFlash;
+    public AudioClip[] _footSteps;
 
 
     
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     
@@ -110,7 +112,13 @@ public class Player : MonoBehaviour
     public void Shoot()
     {
         Instantiate(Bullet, _spawnBulletPoint.transform.position, transform.rotation);
-      //_audioSource.PlayOneShot(_shotAudio);
+      _audioSource.PlayOneShot(_shotAudio);
       ShotFlash.Play();
+    }
+
+    public void FootStep()
+    {
+       // int randInd = Random.Range(0, _footSteps.Length);
+       // _audioSource.PlayOneShot(_footSteps[randInd]);
     }
 }
