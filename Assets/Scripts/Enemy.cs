@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     public Animator anim;
 
-
+    private Vector3 _moveVector;
     public float speed;
 
     public float enemyDamage = 1f;
@@ -22,6 +22,9 @@ public class Enemy : MonoBehaviour
     private float _gravityForce;
 
     private CharacterController _characterController;
+    public UnityEngine.Object enemyRef;
+
+    
 
 
 
@@ -29,6 +32,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         transform.position = spawnPoint.position;
+        _characterController = GetComponent<CharacterController>();
         
 
     }
@@ -41,11 +45,12 @@ public class Enemy : MonoBehaviour
             transform.LookAt(player.transform);
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime); // враг идет за игроком
         }
-       
 
         
 
-        
+
+
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -86,6 +91,8 @@ public class Enemy : MonoBehaviour
 
     private void GamingGravity()
     {
+        _moveVector = Vector3.zero;
+        _moveVector.y = _gravityForce;
         if (!_characterController.isGrounded) _gravityForce -= 20f * Time.deltaTime;
         else _gravityForce = -1f;
     }

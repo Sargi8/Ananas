@@ -11,6 +11,11 @@ public class Player : MonoBehaviour
     public float fireWoodQuantity = 0f; // количество дров. Не менять!
     public GameObject  FireWood; // сами дрова
     public GameController timer; // время костра.
+    public GameObject Bullet;
+    public GameObject _spawnBulletPoint;
+    public AudioClip _shotAudio;
+    public AudioSource _audioSource;
+    public ParticleSystem ShotFlash;
 
 
     
@@ -36,8 +41,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-  
 
+        InputUpdate();
 
     }
 
@@ -52,6 +57,10 @@ public class Player : MonoBehaviour
             Vector3 direct = Vector3.RotateTowards(transform.forward, _moveVector, _speedRotation, 0.0f);
             transform.rotation = Quaternion.LookRotation(direct);
         }
+
+        //анимация движения
+        if (_moveVector.x != 0 || _moveVector.z != 0) _animator.SetBool("Move", true);
+        else _animator.SetBool("Move", false);
 
         _moveVector.y = _gravityForce;
 
@@ -84,5 +93,24 @@ public class Player : MonoBehaviour
             fireWoodQuantity = 0f;
 
         }
+    }
+
+    public void InputUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+            _animator.SetBool("Shoot", true);
+        }
+        else _animator.SetBool("Shoot", false);
+
+        
+    }
+
+    public void Shoot()
+    {
+        Instantiate(Bullet, _spawnBulletPoint.transform.position, transform.rotation);
+      //_audioSource.PlayOneShot(_shotAudio);
+      ShotFlash.Play();
     }
 }
